@@ -120,16 +120,20 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 export default {
+    
     name:'checkout',
 
     computed:{
-        cartList(){
-    return this.$store.state.cart;
-  },
-     getCartTotalPrice(){
-       return this.$store.getters.getCartTotalPrice
-        }
+        ...mapState({cartList:'cart'}),
+        ...mapGetters(["getCartTotalPrice"])
+     //   cartList(){
+  //  return this.$store.state.cart;
+ // },
+    // getCartTotalPrice(){
+     //  return this.$store.getters.getCartTotalPrice
+     //   }
          
 }
 }

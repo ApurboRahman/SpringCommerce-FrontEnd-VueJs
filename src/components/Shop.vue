@@ -28,13 +28,13 @@
               <h4 class="fw-title">Categories</h4>
               <ul class="filter-catagories">
                 <li>
-                  <a @click="selectByGender(1)">Men</a>
+                  <a @click="selectByGenderId(1)">Men</a>
                 </li>
                 <li>
-                  <a @click="selectByGender(2)">Women</a>
+                  <a @click="selectByGenderId(2)">Women</a>
                 </li>
                 <li>
-                  <a @click="selectByGender(3)">Kids</a>
+                  <a @click="selectByGenderId(3)">Kids</a>
                 </li>
               </ul>
             </div>
@@ -186,14 +186,14 @@
                       <img :src="getImgUrl(item.product_image)" alt />
                       <div class="sale pp-sale">Sale</div>
                       <div class="icon">
-                        <i class="icon_heart_alt" title="add to favorite"></i>
+                        <i class="icon_heart_alt" title="add to favorite"
+                           v-on:click="addToFavorite(item)"></i>
                       </div>
                       <ul>
                         <li
                           class="w-icon active"
                           title="add to cart"
-                          v-on:click="addToCart(item)"
-                        >
+                          v-on:click="addItemToCart(item)">
                           <a href="#">
                             <i class="icon_bag_alt"></i>
                           </a>
@@ -235,6 +235,7 @@
 </template>
 
 <script>
+import {mapState,mapActions} from 'vuex'
 export default {
   name: "Shop",
   data() {
@@ -243,25 +244,26 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['selectByGender','getAllProducts','addToCart','addToFavorite']),
     getImgUrl(pic) {
       return require("../assets/img/products/" + pic);
     },
 
-    selectByGender(id) {
-      this.$store.dispatch("selectByGender", id);
+    selectByGenderId(id) {
+      this.selectByGender(id);
     },
-    addToCart(item) {
-      //let quantity =1;
-      this.$store.dispatch("addToCart", item);
+    addItemToCart(item) {
+      this.addToCart(item);
+    },
+    addItemToFavorite(item) {
+      this.addToFavorite(item);
     }
   },
   mounted() {
-    return this.$store.dispatch("getAllProducts");
+    this.getAllProducts();
   },
   computed: {
-    productLists(){
-      return this.$store.state.productLists
-    }
+    ...mapState(["productLists"])
   }
 };
 </script>

@@ -42,13 +42,13 @@
                                     <td class="qua-col first-row">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input type="text" value="1">
-                                                <span>{{item.quantity}}</span>
+                                                
+                                                <span ><input type="text" v-model="item.quantity"></span>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="total-price first-row">${{item.product.product_price*item.quantity}}</td>
-                                    <td class="close-td first-row"><i class="ti-close" @click.prevent="removeFromCart(item)"></i></td>
+                                    <td class="close-td first-row"><i class="ti-close" @click.prevent="removeCart(item)"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import {mapGetters,mapState,mapActions} from 'vuex'
 
 export default {
     name:'shopping-cart',
@@ -94,29 +95,27 @@ export default {
         }
     },
     mounted(){
-        return this.$store.dispatch("getAllCartProducts");
+        this.getAllCartProducts();
     },
     methods:{
+        ...mapActions(['getAllCartProducts','removeFromCart']),
+        removeCart(item){
+            this.removeFromCart(item)
+        },
         getImgUrl(pic) {
         return require('../assets/img/cart-page/'+pic)
         },
         continueShopping(){
             this.$router.push({name:'home'})
         },
-        removeFromCart(item){
-          this.$store.dispatch('removeFromCart',item)
-        },
+        
         checkout(){
             this.$router.push({name:'checkout'})
         }
     },
     computed:{
-        cartList(){
-            return this.$store.state.cart;
-        },
-        getCartTotalPrice(){
-            return this.$store.getters.getCartTotalPrice
-        },
+        ...mapState({cartList:'cart'}),
+        ...mapGetters(["getCartTotalPrice"]),
         productWiseTotalPrice(quantity,price){
             return quantity*price
         }

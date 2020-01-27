@@ -19,7 +19,7 @@
                     </div>
                   </td>
                   <td class="si-close">
-                    <i class="ti-close" @click.prevent="removeFromCart(item)"></i>
+                    <i class="ti-close" @click.prevent="removeCart(item)"></i>
                   </td>
                 </tr>
               </tbody>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-
+import {mapState,mapActions,mapGetters}  from 'vuex'
 export default {
     name:'CartHover',
     data(){
@@ -48,7 +48,8 @@ export default {
         }
     },
     mounted(){
-        return this.$store.dispatch("getAllCartProducts");
+        //return this.$store.dispatch("getAllCartProducts");
+        this.getAllCartProducts()
     },
     methods:{
         getImgUrl(pic) {
@@ -61,17 +62,17 @@ export default {
         checkout(){
             this.$router.push({name:'checkout'})
         },
-        removeFromCart(item){
-          this.$store.dispatch('removeFromCart',item)
+        ...mapActions(['removeFromCart','getAllCartProducts']),
+        //...mapActions(["getAllCartProducts"]),
+        removeCart(item){
+          this.removeFromCart(item)
+          //this.$store.dispatch('removeFromCart',item)
         }
 },
 computed:{
-  cartList(){
-    return this.$store.state.cart;
-  },
-     getCartTotalPrice(){
-       return this.$store.getters.getCartTotalPrice
-        }
+  ...mapState({cartList:'cart'}),
+ ...mapGetters(["getCartTotalPrice"])
+     
 }
 }
 </script>
