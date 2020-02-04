@@ -19,7 +19,7 @@
                     </div>
                   </td>
                   <td class="si-close">
-                    <i class="ti-close" @click.prevent="removeFavorite(item)"></i>
+                    <i class="ti-close" @click.prevent="removeFavorite(item.product)"></i>
                   </td>
                 </tr>
               </tbody>
@@ -49,8 +49,8 @@ export default {
     },
     methods:{
         ...mapActions(['getAllFavoriteProducts','removeFromFavorite']),
-        removeFavorite(item){
-            this.removeFromFavorite(item)
+        removeFavorite(product){
+            this.removeFromFavorite(product)
         },
         getImgUrl(pic) {
         return require('../assets/img/cart-page/'+pic)
