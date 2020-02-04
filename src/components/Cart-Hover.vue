@@ -19,12 +19,13 @@
                     </div>
                   </td>
                   <td class="si-close">
-                    <i class="ti-close" @click.prevent="removeCart(item)"></i>
+                    <i class="ti-close" @click.prevent="removeCart(item.product)"></i>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div v-if="cartList.length!=0">
           <div class="select-total">
             <span>total:</span>
             <h5>${{getCartTotalPrice}}</h5>
@@ -33,8 +34,11 @@
             <router-link to="/shopping-cart" class="primary-btn view-card">VIEW CARD</router-link>
             <router-link to="/checkout" class="primary-btn checkout-btn">CHECK OUT</router-link>
           </div>
-        </div>
-        
+          </div>
+            <div v-else>
+              <p>No item in cart</p>
+              </div>
+        </div>        
       </li>
 </template>
 
@@ -64,8 +68,9 @@ export default {
         },
         ...mapActions(['removeFromCart','getAllCartProducts']),
         //...mapActions(["getAllCartProducts"]),
-        removeCart(item){
-          this.removeFromCart(item)
+        removeCart(product){
+          console.log(product)
+          this.removeFromCart(product)
           //this.$store.dispatch('removeFromCart',item)
         }
 },

@@ -25,13 +25,11 @@
               </tbody>
             </table>
           </div>
-          <div class="select-total">
-            <span>total:</span>
-            <h5>${{getCartTotalPrice}}</h5>
+          <div class="select-button" v-if="favoriteList.length!=0">
+            <router-link to="/wishList_Details" class="primary-btn view-card">VIEW LIST</router-link>
           </div>
-          <div class="select-button">
-            <router-link to="/shopping-cart" class="primary-btn view-card">VIEW CARD</router-link>
-            <router-link to="/checkout" class="primary-btn checkout-btn">CHECK OUT</router-link>
+          <div class="select-button" v-else>
+            <p>No favorite item</p>
           </div>
         </div>
       </li>
@@ -68,9 +66,7 @@ export default {
     computed:{
         ...mapState({favoriteList:'favorite'}),
         ...mapGetters(["getCartTotalPrice"]),
-        productWiseTotalPrice(quantity,price){
-            return quantity*price
-        }
+        
     }
 }
 </script>

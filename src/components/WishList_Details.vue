@@ -28,55 +28,28 @@
                                     <th class="p-name">Product Name</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Total</th>
                                     <th><i class="ti-close"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, i) in cartList" v-bind:key="i">
+                                <tr v-for="(item, i) in favoriteList" v-bind:key="i">
                                     <td class="cart-pic first-row"><img :src="getImgUrl(item.product.product_image)" alt></td>
                                     <td class="cart-title first-row">
                                         <h5>{{item.product.product_name}}</h5>
                                     </td>
                                     <td class="p-price first-row">{{item.product.product_price}}</td>
-                                    <td class="qua-col first-row">
-                                        <div class="quantity">
-                                            <div class="pro-qty">
-                                                
-                                                <span ><input type="text" v-model="item.quantity"></span>
-                                            </div>
-                                        </div>
+                                    <td class="p-price first-row">
+                                        <input type="button"  value="Add to cart" @click.prevent="addItemToCart(item.product)" v-if="!addCart"/>
+                                        <router-link to="checkOut"><input type="button"  value="Check out" v-if="addCart" /></router-link>
+                                        <router-link to="/shop"><input type="button"  value="Continue shopping" v-if="addCart" /></router-link>
                                     </td>
-                                    <td class="total-price first-row">${{item.product.product_price*item.quantity}}</td>
-                                    <td class="close-td first-row"><i class="ti-close" @click.prevent="removeCart(item.product)"></i></td>
+                                
+                                    <td class="close-td first-row"><i class="ti-close" @click.prevent="removeWish(item.product)"></i></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="cart-buttons">
-                                <router-link to="/shop" class="primary-btn continue-shop">Continue shopping</router-link>
-                                <a href="#" class="primary-btn up-cart">Update cart</a>
-                            </div>
-                            <div class="discount-coupon">
-                                <h6>Discount Codes</h6>
-                                <form action="#" class="coupon-form">
-                                    <input type="text" placeholder="Enter your codes">
-                                    <button type="submit" class="site-btn coupon-btn">Apply</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 offset-lg-4">
-                            <div class="proceed-checkout">
-                                <ul>
-                                    <li class="subtotal">Subtotal <span>${{getCartTotalPrice}}</span></li>
-                                    <li class="cart-total">Total <span>$240.00</span></li>
-                                </ul>
-                                 <router-link to="/checkout" class="proceed-btn">PROCEED TO CHECK OUT</router-link>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -88,33 +61,38 @@
 import {mapGetters,mapState,mapActions} from 'vuex'
 
 export default {
-    name:'shopping-cart',
+    name:'wishList_Details',
     data(){
         return{
-            cart:[]
+            favorite:[],
+            addCart: false,
         }
     },
     mounted(){
-        this.getAllCartProducts();
+        this.getAllFavoriteProducts();
+        
     },
     methods:{
-        ...mapActions(['getAllCartProducts','removeFromCart']),
-        removeCart(item){
-            this.removeFromCart(item)
+        ...mapActions(['getAllFavoriteProducts','removeFromFavorite','addToCart']),
+        removeWish(item){
+            this.removeFromFavorite(item)
         },
         getImgUrl(pic) {
         return require('../assets/img/cart-page/'+pic)
         },
+        addItemToCart(item) {
+            this.addCart=true;
+            this.addToCart(item);
+    },
         continueShopping(){
             this.$router.push({name:'home'})
         },
-        
         checkout(){
             this.$router.push({name:'checkout'})
         }
     },
     computed:{
-        ...mapState({cartList:'cart'}),
+        ...mapState({favoriteList:'favorite'}),
         ...mapGetters(["getCartTotalPrice"]),
         productWiseTotalPrice(quantity,price){
             return quantity*price

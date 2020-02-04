@@ -12,6 +12,7 @@ import Contact from '../components/Contact.vue'
 import Faq from '../components/Faq.vue'
 import Register from '../components/Register.vue'
 import Login from '../components/Login.vue'
+import WishList_Details from '../components/WishList_Details.vue'
 
 
 Vue.use(VueRouter)
@@ -94,6 +95,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: ShoppingCart
+  },
+  {
+    path:'/wishList_Details',
+    name: 'wishList_Details',
+    component:WishList_Details
   },
   {
     path: '/faq',

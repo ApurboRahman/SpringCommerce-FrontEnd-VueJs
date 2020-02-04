@@ -34,7 +34,12 @@ export default new Vuex.Store({
     },
     REMOVE_FROM_CART(state, product){
       state.cart = state.cart.filter(item=>{
-        return item.id !== product.id
+        console.log('item');
+        console.log(item);
+
+        console.log('product');
+        console.log(product);
+        return item.product.id !== product.id
       })
     },
     ADD_TO_FAVORITE(state,{pid,product,userTrack,amnt,quantity}){
