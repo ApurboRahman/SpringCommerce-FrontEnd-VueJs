@@ -74,15 +74,15 @@ export default {
     },
     methods:{
         ...mapActions(['getAllFavoriteProducts','removeFromFavorite','addToCart']),
-        removeWish(item){
-            this.removeFromFavorite(item)
+        removeWish(product){
+            this.removeFromFavorite(product)
         },
         getImgUrl(pic) {
         return require('../assets/img/cart-page/'+pic)
         },
-        addItemToCart(item) {
+        addItemToCart(product) {
             this.addCart=true;
-            this.addToCart(item);
+            this.addToCart(product);
     },
         continueShopping(){
             this.$router.push({name:'home'})

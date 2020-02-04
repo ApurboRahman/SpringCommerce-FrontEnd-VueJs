@@ -34,11 +34,6 @@ export default new Vuex.Store({
     },
     REMOVE_FROM_CART(state, product){
       state.cart = state.cart.filter(item=>{
-        console.log('item');
-        console.log(item);
-
-        console.log('product');
-        console.log(product);
         return item.product.id !== product.id
       })
     },
@@ -58,7 +53,7 @@ export default new Vuex.Store({
     },
     REMOVE_FROM_FAVORITE(state, product){
       state.favorite = state.favorite.filter(item=>{
-        return item.id !== product.id
+        return item.product.id !== product.id
       })
     }
   },
